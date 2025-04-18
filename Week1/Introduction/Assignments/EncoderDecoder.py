@@ -1,4 +1,4 @@
-class Transformer:
+class Tonkenizer:
     def encode(self, input):
         vector = []
         for ch in input:
@@ -12,8 +12,8 @@ class Transformer:
             res += chr(num)
         return res
     
-transformer = Transformer()
-encodedData = transformer.encode("Hello, World!")
+tokenizer = Tonkenizer()
+encodedData = tokenizer.encode("Hello, World!")
 print(encodedData)
-decodedData = transformer.decode(encodedData)
+decodedData = tokenizer.decode(encodedData)
 print(decodedData)
