@@ -18,7 +18,7 @@ while True:
         break
     
     response = client.chat.completions.create(
-        model = 'gpt-4.1-mini',
+        model = 'gpt-4.1-nano',
         messages = [
             {
                 "role": "system",
