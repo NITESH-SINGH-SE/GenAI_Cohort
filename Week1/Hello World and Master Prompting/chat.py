@@ -8,7 +8,7 @@ client = OpenAI()
 completion = client.chat.completions.create(
     model="gpt-4o-mini",
     messages=[
-        {"role": "user", "content": "Who are you?"}
+        {"role": "user", "content": "battery life of tesla 3"}
     ]
 )
 
