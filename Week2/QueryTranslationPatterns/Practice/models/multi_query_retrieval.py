@@ -2,7 +2,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain.load import loads, dumps
 
-class Parallel_Query_Retrieval:
+class Multi_Query_Retrieval:
     def __init__(self) -> None:
         self.multi_query_prompt="""
             You are an AI language model assistant.

@@ -11,7 +11,7 @@ from loader import Loader
 from indexing import Indexer
 from vector_database import Vector_Database
 from models.simple import Simple_Query_Translation
-from models.parallel_query_retrieval import Parallel_Query_Retrieval
+from models.multi_query_retrieval import Multi_Query_Retrieval
 from models.reciprocal_rank_fusion import Reciprocal_Rank_fusion
 from models.step_back_prompting import Step_Back
 from models.hyde import HyDE
@@ -20,49 +20,49 @@ from models.hyde import HyDE
 config = dotenv_values(".env")
 
 def main():
-    # # Uploading the file
-    # file_path = r"C:\Users\asus\Desktop\GenAI\nodejs.pdf"
-    # document_loader = PyPDFLoader
+    # Uploading the file
+    file_path = r"C:\Users\asus\Desktop\GenAI\nodejs.pdf"
+    document_loader = PyPDFLoader
 
-    # loader = Loader(
-    #     file_path=file_path, 
-    #     document_loader=document_loader,
-    # )
+    loader = Loader(
+        file_path=file_path, 
+        document_loader=document_loader,
+    )
 
-    # document = loader.load_file()
+    document = loader.load_file()
 
-    # # Chunking
-    # text_splitter = RecursiveCharacterTextSplitter(
-    #     chunk_size=1000, 
-    #     chunk_overlap=200
-    # )
+    # Chunking
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size=1000, 
+        chunk_overlap=200
+    )
 
-    # indexer = Indexer(document=document, text_splitter=text_splitter)
-    # docs = indexer.chunking()
+    indexer = Indexer(document=document, text_splitter=text_splitter)
+    docs = indexer.chunking()
     
-    # # Embeddings
-    # embeddings = OpenAIEmbeddings(
-    #     model="text-embedding-3-large", 
-    #     # api_key=dotenv_values(".env.OPENAI_API_KEY"),
-    #     api_key=config["OPENAI_API_KEY"],
-    # )
+    # Embeddings
+    embeddings = OpenAIEmbeddings(
+        model="text-embedding-3-large", 
+        # api_key=dotenv_values(".env.OPENAI_API_KEY"),
+        api_key=config["OPENAI_API_KEY"],
+    )
 
-    # # Storing data in Vector Store
-    # db_collection_name="query_translations"
-    # vector_db = Vector_Database(
-    #     database_client=QdrantClient,
-    #     database_vector_store=QdrantVectorStore,
-    #     database_url=config["QDRANT_CLOUD_CLUSTER_URL"],
-    #     database_api_key=config["QDRANT_API_KEY"],
-    # )
+    # Storing data in Vector Store
+    db_collection_name="query_translations"
+    vector_db = Vector_Database(
+        database_client=QdrantClient,
+        database_vector_store=QdrantVectorStore,
+        database_url=config["QDRANT_CLOUD_CLUSTER_URL"],
+        database_api_key=config["QDRANT_API_KEY"],
+    )
 
-    # vector_db.delete_collection(db_collection_name)
-    # vector_store = vector_db.upload(
-    #     docs=docs,
-    #     embeddings=embeddings,
-    #     db_grpc=True,
-    #     db_collection_name=db_collection_name
-    # )
+    vector_db.delete_collection(db_collection_name)
+    vector_store = vector_db.upload(
+        docs=docs,
+        embeddings=embeddings,
+        db_grpc=True,
+        db_collection_name=db_collection_name
+    )
 
     # Query Translation
     user_prompt = "What is fs module in Node.js?"
@@ -74,16 +74,16 @@ def main():
     #     user_prompt=user_prompt
     # )
 
-    # parallel_query_retrieval = Parallel_Query_Retrieval()
+    multi_query_retrieval = Multi_Query_Retrieval()
 
-    # relevant_chunks = parallel_query_retrieval.get_revlevant_docs(
-    #     llm=ChatOpenAI(
-    #         model="gpt-4.1-mini",
-    #         api_key=config["OPENAI_API_KEY"]
-    #     ),
-    #     retriever=vector_store.as_retriever(), 
-    #     user_prompt=user_prompt
-    # )
+    relevant_chunks = multi_query_retrieval.get_revlevant_docs(
+        llm=ChatOpenAI(
+            model="gpt-4.1-mini",
+            api_key=config["OPENAI_API_KEY"]
+        ),
+        retriever=vector_store.as_retriever(), 
+        user_prompt=user_prompt
+    )
 
     # reciprocal_rank_fusion = Reciprocal_Rank_fusion()
 
@@ -107,8 +107,8 @@ def main():
     #     user_prompt=user_prompt
     # )
 
-    hyde = HyDE()
-    relevant_chunks = hyde.get_relevant_chunks(user_prompt)
+    # hyde = HyDE()
+    # relevant_chunks = hyde.get_relevant_chunks(user_prompt)
 
     print(relevant_chunks)
     print()
