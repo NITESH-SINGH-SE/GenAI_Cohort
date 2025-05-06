@@ -74,20 +74,9 @@ def main():
     #     user_prompt=user_prompt
     # )
 
-    multi_query_retrieval = Multi_Query_Retrieval()
+    # multi_query_retrieval = Multi_Query_Retrieval()
 
-    relevant_chunks = multi_query_retrieval.get_revlevant_docs(
-        llm=ChatOpenAI(
-            model="gpt-4.1-mini",
-            api_key=config["OPENAI_API_KEY"]
-        ),
-        retriever=vector_store.as_retriever(), 
-        user_prompt=user_prompt
-    )
-
-    # reciprocal_rank_fusion = Reciprocal_Rank_fusion()
-
-    # relevant_chunks = reciprocal_rank_fusion.get_relevant_chunks(
+    # relevant_chunks = multi_query_retrieval.get_revlevant_docs(
     #     llm=ChatOpenAI(
     #         model="gpt-4.1-mini",
     #         api_key=config["OPENAI_API_KEY"]
@@ -95,6 +84,17 @@ def main():
     #     retriever=vector_store.as_retriever(), 
     #     user_prompt=user_prompt
     # )
+
+    reciprocal_rank_fusion = Reciprocal_Rank_fusion()
+
+    relevant_chunks = reciprocal_rank_fusion.get_relevant_docs(
+        llm=ChatOpenAI(
+            model="gpt-4.1-mini",
+            api_key=config["OPENAI_API_KEY"]
+        ),
+        retriever=vector_store.as_retriever(), 
+        user_prompt=user_prompt
+    )
 
     # step_back_prompting = Step_Back()
 

@@ -30,7 +30,7 @@ class Reciprocal_Rank_fusion:
 
         return relevant_chunks
 
-    def get_revlevant_docs(self, llm, retriever, user_prompt):
+    def get_relevant_docs(self, llm, retriever, user_prompt):
         multi_query_prompt_template = ChatPromptTemplate.from_template(self.multi_query_prompt)
 
         retrieval_chain = (
