@@ -21,7 +21,7 @@ config = dotenv_values(".env")
 
 def main():
     # Uploading the file
-    file_path = r"C:\Users\asus\Desktop\GenAI\nodejs.pdf"
+    file_path = r"C:\Users\asus\Desktop\GenAI\kech105.pdf"
     document_loader = PyPDFLoader
 
     loader = Loader(
@@ -65,7 +65,7 @@ def main():
     )
 
     # Query Translation
-    user_prompt = "What is fs module in Node.js?"
+    user_prompt = "What happens to the pressure, P, of an ideal gas if the temperature is increased by a factor of 2 and the volume is increased by a factor of 8 ?"
 
     # simple_query_translation = Simple_Query_Translation()
 
@@ -85,20 +85,9 @@ def main():
     #     user_prompt=user_prompt
     # )
 
-    reciprocal_rank_fusion = Reciprocal_Rank_fusion()
+    # reciprocal_rank_fusion = Reciprocal_Rank_fusion()
 
-    relevant_chunks = reciprocal_rank_fusion.get_relevant_docs(
-        llm=ChatOpenAI(
-            model="gpt-4.1-mini",
-            api_key=config["OPENAI_API_KEY"]
-        ),
-        retriever=vector_store.as_retriever(), 
-        user_prompt=user_prompt
-    )
-
-    # step_back_prompting = Step_Back()
-
-    # relevant_chunks = step_back_prompting.get_relevant_chunks(
+    # relevant_chunks = reciprocal_rank_fusion.get_relevant_docs(
     #     llm=ChatOpenAI(
     #         model="gpt-4.1-mini",
     #         api_key=config["OPENAI_API_KEY"]
@@ -106,6 +95,17 @@ def main():
     #     retriever=vector_store.as_retriever(), 
     #     user_prompt=user_prompt
     # )
+
+    step_back_prompting = Step_Back()
+
+    relevant_chunks = step_back_prompting.get_relevant_chunks(
+        llm=ChatOpenAI(
+            model="gpt-4.1-mini",
+            api_key=config["OPENAI_API_KEY"]
+        ),
+        retriever=vector_store.as_retriever(), 
+        user_prompt=user_prompt
+    )
 
     # hyde = HyDE()
     # relevant_chunks = hyde.get_relevant_chunks(user_prompt)
